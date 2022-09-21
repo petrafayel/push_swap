@@ -10,19 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap.h"
+#include "push_swap_bonus.h"
 
 t_list	*rb(t_list **start)
 {
 	t_list	*temp;
 
 	temp = *start;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = *start;
-	temp = *start;
-	*start = (*start)->next;
-	temp->next = NULL;
-	write(1, "rb\n", 3);
+	if (temp && temp->next)
+	{
+		while (temp->next)
+			temp = temp->next;
+		temp->next = *start;
+		temp = *start;
+		*start = (*start)->next;
+		temp->next = NULL;
+	}
 	return (*start);
 }

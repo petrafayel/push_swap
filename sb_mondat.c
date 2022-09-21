@@ -17,13 +17,13 @@ t_list	*sb(t_list **start)
 	t_list	*temp;
 
 	temp = *start;
-	if (temp->next)
+	if (temp && temp->next)
 	{
 		temp = temp->next;
 		(*start)->next = temp->next;
 		temp->next = *start;
 		*start = temp;
+		write(1, "sb\n", 3);
 	}
-	write(1, "sb\n", 3);
 	return (*start);
 }

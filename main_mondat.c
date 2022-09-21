@@ -12,26 +12,59 @@
 
 #include "push_swap.h"
 
+void	check_spaces(char *str, t_list **start)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (!str[i])
+	{
+		if (*start)
+			err(start);
+		else
+		{
+			write(2, "Error\n", 6);
+			exit (1);
+		}
+	}
+}
+
+void	check_digits(char *str, t_list **start)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!(str[i] == ' ' || (str[i] >= 48 && str[i] <= 57) || \
+			 str[i] == '\t' || str[i] == '-' || str[i] == '+'))
+			err_not_numeric(start);
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int		ac;
-	int		ati;
 	t_list	*top;
 
 	if (argc == 1)
 		return (0);
 	top = NULL;
-	ac = argc - 1;
-	ati = ft_atoi(argv[ac], &top);
-	top = init_stack(ati);
-	top->index = ac - 1;
-	ac--;
-	while (ac > 0)
+	ac = 1;
+	while (ac < argc)
 	{
-		ati = ft_atoi(argv[ac], &top);
-		top = add_beg(&top, ati);
-		top->index = ac - 1;
-		ac--;
+		check_spaces(argv[ac], &top);
+		check_digits(argv[ac], &top);
+		while (*argv[ac])
+		{
+			top = add_end(&top, ft_atoi(&argv[ac], &top));
+			while ((*argv[ac] == ' ' || *argv[ac] == '\t') && *argv[ac])
+				argv[ac]++;
+		}
+		ac++;
 	}
 	if (duplicates(&top) == 0)
 		err(&top);

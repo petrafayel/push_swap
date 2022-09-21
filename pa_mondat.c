@@ -1,33 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pb.c                                               :+:      :+:    :+:   */
+/*   pa.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rapetros <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 15:12:49 by rapetros          #+#    #+#             */
-/*   Updated: 2022/08/13 15:15:26 by rapetros         ###   ########.fr       */
+/*   Created: 2022/08/13 15:12:41 by rapetros          #+#    #+#             */
+/*   Updated: 2022/08/13 15:15:10 by rapetros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "push_swap_bonus.h"
+#include "push_swap.h"
 
-t_list	*pb(t_list **stack_a, t_list **stack_b)
+t_list	*pa(t_list **stack_a, t_list **stack_b)
 {
 	t_list	*temp;
 
-	if (!*stack_b)
+	if (*stack_b)
 	{
-		*stack_b = *stack_a;
-		*stack_a = (*stack_a)->next;
-		(*stack_b)->next = NULL;
+		if (!*stack_a)
+		{
+			*stack_a = *stack_b;
+			*stack_b = (*stack_b)->next;
+			(*stack_a)->next = NULL;
+		}
+		else
+		{
+			temp = *stack_b;
+			*stack_b = (*stack_b)->next;
+			temp->next = *stack_a;
+			*stack_a = temp;
+		}
+		write(1, "pa\n", 3);
 	}
-	else
-	{
-		temp = *stack_a;
-		*stack_a = (*stack_a)->next;
-		temp->next = *stack_b;
-		*stack_b = temp;
-	}
-	return (*stack_b);
+	return (*stack_a);
 }

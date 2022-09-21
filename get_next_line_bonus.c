@@ -6,7 +6,7 @@
 /*   By: rapetros <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 14:09:47 by rapetros          #+#    #+#             */
-/*   Updated: 2022/09/10 14:09:48 by rapetros         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:56:43 by rapetros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,41 @@ char	*get_next_line(int fd)
 		line = NULL;
 	}	
 	return (newline);
+}
+
+int	duplicates(t_list **start)
+{
+	t_list	*first;
+	t_list	*second;
+
+	first = *start;
+	while (first->next)
+	{
+		second = first->next;
+		while (second)
+		{
+			if (first->data == second->data)
+				return (0);
+			second = second->next;
+		}
+		first = first->next;
+	}
+	return (1);
+}
+
+int	list_len(t_list **start)
+{
+	t_list	*temp;
+	int		count;
+
+	if (!*start)
+		return (0);
+	temp = *start;
+	count = 0;
+	while (temp)
+	{
+		count++;
+		temp = temp->next;
+	}
+	return (count);
 }

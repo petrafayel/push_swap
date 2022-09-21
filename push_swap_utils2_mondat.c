@@ -66,20 +66,22 @@ void	indices(t_list **start)
 	}
 }
 
-t_list	*add_end(t_list **head, int data, int index)
+t_list	*add_end(t_list **head, int data)
 {
 	t_list	*temp1;
 	t_list	*temp2;
 
-	temp1 = malloc(sizeof(t_list *));
-	if (!temp1)
-		return (NULL);
+	if (!*head)
+	{
+		temp1 = init_stack(data);
+		return (temp1);
+	}
+	temp1 = init_stack(data);
 	temp2 = *head;
 	while (temp2->next)
 		temp2 = temp2->next;
 	temp2->next = temp1;
 	temp1->data = data;
-	temp1->index = index;
 	temp1->next = NULL;
 	return (*head);
 }

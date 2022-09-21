@@ -6,7 +6,7 @@
 /*   By: rapetros <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/10 13:24:40 by rapetros          #+#    #+#             */
-/*   Updated: 2022/09/11 17:20:04 by rapetros         ###   ########.fr       */
+/*   Updated: 2022/09/18 14:56:00 by rapetros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,13 @@ void	checker(t_list **stack_a)
 	{
 		str = get_next_line(0);
 		if (!str)
-			return ;
-		if (ft_strcmp(str, "Error\n") == 0)
-		{
-			free_list(stack_a);
-			write(2, "Error\n", 6);
-			exit (1);
-		}
+			break ;
 		checker_tools(str, stack_a, &stack_b);
 	}
+	if (list_len(&stack_b) > 0 || !is_sorted(stack_a))
+		write(1, "KO\n", 3);
+	else if (is_sorted(stack_a))
+		write(1, "OK\n", 3);
 }
 
 void	checker_tools(char *str, t_list **stack_a, t_list **stack_b)
@@ -69,30 +67,49 @@ void	err_checker(t_list **stack_a, t_list **stack_b)
 	exit (1);
 }
 
+void	check_spaces(char *str, t_list **start)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (!str[i])
+	{
+		if (*start)
+			err(start);
+		else
+		{
+			write(2, "Error\n", 6);
+			exit (1);
+		}
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	int		ac;
-	int		ati;
 	t_list	*top;
 
 	if (argc == 1)
 		return (0);
 	top = NULL;
-	ac = argc - 1;
-	ati = ft_atoi(argv[ac], &top);
-	top = init_stack(ati);
-	ac--;
-	while (ac > 0)
+	ac = 1;
+	while (ac < argc)
 	{
-		ati = ft_atoi(argv[ac], &top);
-		top = add_beg(&top, ati);
-		ac--;
+		check_spaces(argv[ac], &top);
+		check_digits(argv[ac], &top);
+		while (*argv[ac])
+		{
+			top = add_end(&top, ft_atoi(&argv[ac], &top));
+			while ((*argv[ac] == ' ' || *argv[ac] == '\t') && *argv[ac])
+				argv[ac]++;
+		}
+		ac++;
 	}
+	if (duplicates(&top) == 0)
+		err(&top);
 	checker(&top);
-	if (is_sorted(&top))
-		write(1, "OK\n", 3);
-	else
-		write(1, "KO\n", 3);
 	free_list(&top);
 	return (0);
 }

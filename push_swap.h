@@ -6,7 +6,7 @@
 /*   By: rapetros <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/13 15:13:05 by rapetros          #+#    #+#             */
-/*   Updated: 2022/09/10 13:31:08 by rapetros         ###   ########.fr       */
+/*   Updated: 2022/09/18 18:39:02 by rapetros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-int		ft_atoi(char *str, t_list **start);
-t_list	*add_beg(t_list **start, int data);
+int		ft_atoi(char **str, t_list **start);
 t_list	*init_stack(int data);
 t_list	*sa(t_list **start);
 t_list	*sb(t_list **start);
@@ -52,12 +51,14 @@ int		min_pos(t_list *start);
 int		list_min(t_list *start);
 int		max_index_pos(t_list *start);
 int		max_index(t_list *start);
-t_list	*add_end(t_list **head, int data, int index);
+t_list	*add_end(t_list **head, int data);
 void	back_to_a(t_list **stack_a, t_list **stack_b);
 int		min_max(long long data);
 void	indices(t_list **start);
 void	err(t_list **start);
 void	err_not_numeric(t_list **start);
 void	err_min_max(long long data, t_list **start);
+void	check_spaces(char *str, t_list **start);
+void	check_digits(char *str, t_list **start);
 
 #endif

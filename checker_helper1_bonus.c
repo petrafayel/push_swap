@@ -24,40 +24,48 @@ t_list	*init_stack(int data)
 	return (temp);
 }
 
-t_list	*add_beg(t_list **start, int data)
+t_list	*add_end(t_list **head, int data)
 {
-	t_list	*temp;
+	t_list	*temp1;
+	t_list	*temp2;
 
-	temp = init_stack(data);
-	temp->next = *start;
-	*start = temp;
-	return (*start);
+	if (!*head)
+	{
+		temp1 = init_stack(data);
+		return (temp1);
+	}
+	temp1 = init_stack(data);
+	temp2 = *head;
+	while (temp2->next)
+		temp2 = temp2->next;
+	temp2->next = temp1;
+	temp1->data = data;
+	temp1->next = NULL;
+	return (*head);
 }
 
-int	ft_atoi(char *str, t_list **start)
+int	ft_atoi(char **str, t_list **start)
 {
+
 	long long	res;
 	int			sign;
 
 	res = 0;
 	sign = 1;
-	while (*str <= 32)
-	{
-		str++;
-		if (!*str)
-			exit (0);
-	}
-	if (*str == '-')
+	while (**str == ' ' || **str == '\t')
+		(*str)++;
+	if (**str == '-' && (*(*str + 1)) >= '0' && (*(*str + 1)) <= '9')
 	{
 		sign = -1;
-		str++;
+		(*str)++;
 	}
-	if (!*str)
-		err(start);
-	while (*str >= '0' && *str <= '9')
-		res = (res * 10) + (*(str++) - 48);
-	if (*str && !(*str >= '0' && *str <= '9'))
+	else if (**str == '+' && (*(*str + 1)) >= '0' && (*(*str + 1)) <= '9')
+		(*str)++;
+	else if ((**str == '+' || **str == '-') && \
+		(!((*(*str + 1)) >= '0' && (*(*str + 1)) <= '9')))
 		err_not_numeric(start);
+	while (**str >= '0' && **str <= '9')
+		res = (res * 10) + ((*(*str)++) - 48);
 	err_min_max((res * sign), start);
 	return (res * sign);
 }

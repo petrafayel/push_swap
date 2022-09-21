@@ -1,8 +1,8 @@
-SRCS = $(wildcard *.c)
+SRCS = $(wildcard *_mondat.c)
 	  
 OBJS = $(SRCS:.c=.o)
 
-BSRCS = ${wildcard ./BONUS/*.c}
+BSRCS = ${wildcard *_bonus.c}
 
 BOBJS = $(BSRCS:.c=.o)
 

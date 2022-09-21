@@ -1,27 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   rb.c                                               :+:      :+:    :+:   */
+/*   rra.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rapetros <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/08/13 15:13:30 by rapetros          #+#    #+#             */
-/*   Updated: 2022/08/13 15:13:31 by rapetros         ###   ########.fr       */
+/*   Created: 2022/08/27 13:14:36 by rapetros          #+#    #+#             */
+/*   Updated: 2022/08/27 13:14:37 by rapetros         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap_bonus.h"
 
-t_list	*rb(t_list **start)
+t_list	*rra(t_list **start)
 {
-	t_list	*temp;
+	t_list	*prev;
+	t_list	*last;
 
-	temp = *start;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = *start;
-	temp = *start;
-	*start = (*start)->next;
-	temp->next = NULL;
+	prev = *start;
+	if (prev && prev->next)
+	{
+		while (prev->next->next)
+			prev = prev->next;
+		last = prev->next;
+		prev->next = NULL;
+		last->next = *start;
+		*start = last;
+	}
 	return (*start);
 }
